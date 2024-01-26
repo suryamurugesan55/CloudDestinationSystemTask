@@ -1,16 +1,10 @@
 package com.surya.grocerytask.ui
 
-import android.content.Intent
-import android.content.SharedPreferences
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
@@ -19,22 +13,21 @@ import com.surya.grocerytask.R
 import com.surya.grocerytask.base.BaseApplication
 import com.surya.grocerytask.databinding.ActivityMainBinding
 import com.surya.grocerytask.utils.SharedPref
-import com.surya.grocerytask.viewmodel.MainViewModel
-import com.surya.grocerytask.viewmodel.MainViewModelFactory
-import dagger.hilt.android.AndroidEntryPoint
+import com.surya.grocerytask.viewmodel.ProductViewModel
+import com.surya.grocerytask.viewmodel.ProductViewModelFactory
 import javax.inject.Inject
 
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
-    private lateinit var mainViewModel: MainViewModel
+    private lateinit var productViewModel: ProductViewModel
 
     @Inject
     lateinit var sharedPref: SharedPref
 
     @Inject
-    lateinit var mainViewModelFactory: MainViewModelFactory
+    lateinit var productViewModelFactory: ProductViewModelFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,7 +56,7 @@ class MainActivity : AppCompatActivity() {
         (application as BaseApplication).applicationComponent.inject(this)
 
         if(!sharedPref.isFirstTime) {
-            mainViewModel = ViewModelProvider(this, mainViewModelFactory)[MainViewModel::class.java]
+            productViewModel = ViewModelProvider(this, productViewModelFactory)[ProductViewModel::class.java]
         }
 
     }

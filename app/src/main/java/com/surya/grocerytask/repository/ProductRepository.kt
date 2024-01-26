@@ -7,7 +7,7 @@ import com.surya.grocerytask.retrofit.ApiService
 import com.surya.grocerytask.utils.SharedPref
 import javax.inject.Inject
 
-class AppRepository @Inject constructor(private val apiService: ApiService, private val sharedPref: SharedPref){
+class ProductRepository @Inject constructor(private val apiService: ApiService, private val sharedPref: SharedPref){
     private val _products = MutableLiveData<List<ProductList>>()
     val groceryItem: LiveData<List<ProductList>> get() = _products
 

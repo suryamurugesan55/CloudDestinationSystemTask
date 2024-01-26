@@ -4,10 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.surya.grocerytask.model.ProductList
-import com.surya.grocerytask.repository.AppRepository
+import com.surya.grocerytask.repository.ProductRepository
 import kotlinx.coroutines.launch
 
-class MainViewModel(private val repository: AppRepository): ViewModel() {
+class ProductViewModel(private val repository: ProductRepository): ViewModel() {
     val groceryLiveData : LiveData<List<ProductList>> get() = repository.groceryItem
 
     init {

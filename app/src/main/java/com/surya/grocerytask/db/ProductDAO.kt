@@ -6,7 +6,7 @@ import androidx.room.Query
 import com.surya.grocerytask.model.ProductList
 
 @Dao
-interface roomDAO {
+interface ProductDAO {
 
     @Insert
     suspend fun addProducts(productList: List<ProductList>)
