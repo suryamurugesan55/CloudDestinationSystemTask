@@ -3,7 +3,6 @@ package com.surya.grocerytask.base
 import android.app.Application
 import com.surya.grocerytask.di.ApplicationComponent
 import com.surya.grocerytask.di.DaggerApplicationComponent
-import dagger.Component
 
 class BaseApplication: Application() {
     lateinit var applicationComponent: ApplicationComponent

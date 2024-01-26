@@ -53,6 +53,7 @@ dependencies {
     // Hilt
     implementation("com.google.dagger:hilt-android:2.48")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
+    implementation("com.google.android.gms:play-services-basement:18.3.0")
     kapt("com.google.dagger:hilt-android-compiler:2.48")
     // Room Library
     implementation("androidx.room:room-runtime:2.6.1")
