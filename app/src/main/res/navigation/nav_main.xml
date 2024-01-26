@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_main"
+    app:startDestination="@id/navigation_todo">
+    <fragment
+        android:id="@+id/navigation_todo"
+        android:name="com.surya.grocerytask.ui.todo.TodoScreenFragment"
+        android:label="TODO Shopping List"
+        tools:layout="@layout/fragment_todo_screen" />
+    <fragment
+        android:id="@+id/navigation_pending"
+        android:name="com.surya.grocerytask.ui.pending.PendingScreenFragment"
+        android:label="Pending Shopping List"
+        tools:layout="@layout/fragment_pending_screen" />
+    <fragment
+        android:id="@+id/navigation_complete"
+        android:name="com.surya.grocerytask.ui.complete.CompleteScreenFragment"
+        android:label="Complete Shopping List"
+        tools:layout="@layout/fragment_complete_screen" />
+</navigation>
