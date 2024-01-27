@@ -7,6 +7,6 @@ import com.surya.grocerytask.model.ProductList
 @Database(entities = [ProductList::class], version = 1)
 abstract class ProductDB : RoomDatabase() {
 
-    abstract fun getroomDAO() : ProductDAO
+    abstract fun getroomDAO(): ProductDAO
 
 }

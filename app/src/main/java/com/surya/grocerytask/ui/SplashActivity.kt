@@ -2,8 +2,8 @@ package com.surya.grocerytask.ui
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.surya.grocerytask.R
 import com.surya.grocerytask.base.BaseApplication
 import com.surya.grocerytask.utils.requestNotificationPermission

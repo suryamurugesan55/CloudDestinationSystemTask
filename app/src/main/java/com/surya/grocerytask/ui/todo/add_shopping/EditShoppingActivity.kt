@@ -3,12 +3,12 @@ package com.surya.grocerytask.ui.todo.add_shopping
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.PorterDuff
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -17,7 +17,6 @@ import com.google.android.gms.common.util.CollectionUtils
 import com.surya.grocerytask.R
 import com.surya.grocerytask.adapter.ProductItemAdapter
 import com.surya.grocerytask.base.BaseApplication
-import com.surya.grocerytask.databinding.ActivityAddShoppingBinding
 import com.surya.grocerytask.databinding.ActivityEditShoppingBinding
 import com.surya.grocerytask.model.ShoppingList
 import com.surya.grocerytask.model.ShoppingListWithProducts
@@ -27,17 +26,18 @@ import com.surya.grocerytask.viewmodel.ProductItemViewModel
 import com.surya.grocerytask.viewmodel.ProductItemViewModelFactory
 import com.surya.grocerytask.viewmodel.ShoppingViewModel
 import com.surya.grocerytask.viewmodel.ShoppingViewModelFactory
-import java.util.UUID
 import javax.inject.Inject
 
 class EditShoppingActivity : AppCompatActivity() {
     private lateinit var binding: ActivityEditShoppingBinding
 
     private lateinit var shoppingViewModel: ShoppingViewModel
+
     @Inject
     lateinit var shoppingViewModelFactory: ShoppingViewModelFactory
 
     private lateinit var productItemViewModel: ProductItemViewModel
+
     @Inject
     lateinit var productItemViewModelFactory: ProductItemViewModelFactory
 
@@ -62,7 +62,8 @@ class EditShoppingActivity : AppCompatActivity() {
             title = "Edit Shopping List"
             setDisplayHomeAsUpEnabled(true)
             val color = ContextCompat.getColor(this@EditShoppingActivity, R.color.white)
-            val drawable = ContextCompat.getDrawable(this@EditShoppingActivity, R.drawable.ic_arrow_back)
+            val drawable =
+                ContextCompat.getDrawable(this@EditShoppingActivity, R.drawable.ic_arrow_back)
             if (drawable != null) {
                 drawable.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
                 setHomeAsUpIndicator(drawable)
@@ -72,35 +73,43 @@ class EditShoppingActivity : AppCompatActivity() {
 
         getDataFromIntent()
 
-        productItemViewModel = ViewModelProvider(this, productItemViewModelFactory)[ProductItemViewModel::class.java]
+        productItemViewModel =
+            ViewModelProvider(this, productItemViewModelFactory)[ProductItemViewModel::class.java]
 
         productItemAdapter = ProductItemAdapter(this@EditShoppingActivity)
 
         productItemViewModel.components.observe(this, Observer {
             var list = it
-            Log.e("99999",""+shoppingProducts.toString())
+            Log.e("99999", "" + shoppingProducts.toString())
             shoppingProducts.forEach { shopProduct ->
                 list.find { it.id == shopProduct.id }?.isChecked = true
             }
-
-            Log.e("99999",""+it.toString())
             productItemAdapter.setComponents(list)
         })
 
         binding.recyclerView.adapter = productItemAdapter
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
 
-        shoppingViewModel = ViewModelProvider(this, shoppingViewModelFactory)[ShoppingViewModel::class.java]
+        shoppingViewModel =
+            ViewModelProvider(this, shoppingViewModelFactory)[ShoppingViewModel::class.java]
 
         binding.btnSubmit.setOnClickListener {
             val isEmpty = CollectionUtils.isEmpty(ProductItemAdapter.selectedList)
-            if(binding.etName.text.toString().isEmpty()) {
-                Toast.makeText(this@EditShoppingActivity, "Please enter TODO Name", Toast.LENGTH_SHORT).show()
+            if (binding.etName.text.toString().isEmpty()) {
+                Toast.makeText(
+                    this@EditShoppingActivity,
+                    "Please enter TODO Name",
+                    Toast.LENGTH_SHORT
+                ).show()
                 return@setOnClickListener
             }
 
-            if(isEmpty) {
-                Toast.makeText(this@EditShoppingActivity, "Min Select 1 product", Toast.LENGTH_SHORT).show()
+            if (isEmpty) {
+                Toast.makeText(
+                    this@EditShoppingActivity,
+                    "Min Select 1 product",
+                    Toast.LENGTH_SHORT
+                ).show()
                 return@setOnClickListener
             } else {
                 val list = ProductItemAdapter.selectedList!!
@@ -123,7 +132,12 @@ class EditShoppingActivity : AppCompatActivity() {
                 }
                 val shopp: List<ShoppingProducts> = selectedList
                 val existingShoppingListId = shoppingListWithProducts.shoppingList.id
-                val newShoppingList = ShoppingList(id = existingShoppingListId, name = binding.etName.text.toString().trim(), date = shoppingListWithProducts.shoppingList.date, shoppingListWithProducts.shoppingList.reminderTime)
+                val newShoppingList = ShoppingList(
+                    id = existingShoppingListId,
+                    name = binding.etName.text.toString().trim(),
+                    date = shoppingListWithProducts.shoppingList.date,
+                    shoppingListWithProducts.shoppingList.reminderTime
+                )
                 shoppingViewModel.updateShoppingListWithProducts(newShoppingList, shopp)
                 moveHome()
             }

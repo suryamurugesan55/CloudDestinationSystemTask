@@ -11,7 +11,6 @@ import com.surya.grocerytask.ui.todo.add_shopping.EditShoppingActivity
 import com.surya.grocerytask.ui.todo.add_shopping.UpdateShoppingActivity
 import dagger.BindsInstance
 import dagger.Component
-import java.security.AccessControlContext
 import javax.inject.Singleton
 
 @Singleton
@@ -29,8 +28,8 @@ interface ApplicationComponent {
 
 
     @Component.Factory
-    interface Factory{
-        fun create(@BindsInstance context: Context) : ApplicationComponent
+    interface Factory {
+        fun create(@BindsInstance context: Context): ApplicationComponent
     }
 
 }

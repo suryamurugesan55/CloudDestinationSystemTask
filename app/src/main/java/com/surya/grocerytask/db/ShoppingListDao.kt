@@ -1,8 +1,6 @@
 package com.surya.grocerytask.db
 
-import android.annotation.SuppressLint
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -82,7 +80,11 @@ interface ShoppingListDao {
             .setConstraints(constraints)
             .build()
 
-        workManager.enqueueUniqueWork("reminder_$shoppingListId", ExistingWorkPolicy.REPLACE, reminderRequest)
+        workManager.enqueueUniqueWork(
+            "reminder_$shoppingListId",
+            ExistingWorkPolicy.REPLACE,
+            reminderRequest
+        )
     }
 }
 

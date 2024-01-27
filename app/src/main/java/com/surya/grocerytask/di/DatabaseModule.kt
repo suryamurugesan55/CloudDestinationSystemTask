@@ -16,13 +16,13 @@ class DatabaseModule {
 
     @Singleton
     @Provides
-    fun provideRoomDB(context: Context) : ProductDB{
+    fun provideRoomDB(context: Context): ProductDB {
         return Room.databaseBuilder(context, ProductDB::class.java, "roomDB").build()
     }
 
     @Singleton
     @Provides
-    fun provideShoppingDB(context: Context) : ShoppingListDB{
+    fun provideShoppingDB(context: Context): ShoppingListDB {
         return Room.databaseBuilder(context, ShoppingListDB::class.java, "shoppingDB").build()
     }
 }

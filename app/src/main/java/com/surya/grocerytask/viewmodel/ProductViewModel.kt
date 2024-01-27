@@ -7,8 +7,8 @@ import com.surya.grocerytask.model.ProductList
 import com.surya.grocerytask.repository.ProductRepository
 import kotlinx.coroutines.launch
 
-class ProductViewModel(private val repository: ProductRepository): ViewModel() {
-    val groceryLiveData : LiveData<List<ProductList>> get() = repository.groceryItem
+class ProductViewModel(private val repository: ProductRepository) : ViewModel() {
+    val groceryLiveData: LiveData<List<ProductList>> get() = repository.groceryItem
 
     init {
         viewModelScope.launch {

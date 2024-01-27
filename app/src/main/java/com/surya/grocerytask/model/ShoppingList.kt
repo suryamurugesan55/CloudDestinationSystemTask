@@ -6,13 +6,13 @@ import androidx.room.PrimaryKey
 import java.io.Serializable
 
 @Entity
-data class ShoppingList (
+data class ShoppingList(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
     val name: String,
     val date: Long,
     var reminderTime: Long? = null
-   // val products: List<ShoppingProducts>
+    // val products: List<ShoppingProducts>
 ) : Serializable
 
 @Entity(
@@ -23,7 +23,7 @@ data class ShoppingList (
         onDelete = ForeignKey.CASCADE
     )]
 )
-data class ShoppingProducts (
+data class ShoppingProducts(
     var shoppingListId: Long,
     val category: String,
     val description: String,

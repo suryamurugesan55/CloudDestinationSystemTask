@@ -4,7 +4,7 @@ import android.app.Application
 import com.surya.grocerytask.di.ApplicationComponent
 import com.surya.grocerytask.di.DaggerApplicationComponent
 
-class BaseApplication: Application() {
+class BaseApplication : Application() {
     lateinit var applicationComponent: ApplicationComponent
 
     override fun onCreate() {

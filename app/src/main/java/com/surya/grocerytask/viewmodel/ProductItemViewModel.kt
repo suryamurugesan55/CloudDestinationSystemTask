@@ -9,7 +9,8 @@ import com.surya.grocerytask.repository.ProductItemRepository
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class ProductItemViewModel @Inject constructor(private val productItemRepository: ProductItemRepository) : ViewModel(){
+class ProductItemViewModel @Inject constructor(private val productItemRepository: ProductItemRepository) :
+    ViewModel() {
 
     private val _components = MutableLiveData<List<ProductList>>()
     val components: LiveData<List<ProductList>> get() = _components

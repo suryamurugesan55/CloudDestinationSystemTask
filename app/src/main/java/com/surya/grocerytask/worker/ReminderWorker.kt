@@ -3,7 +3,6 @@ package com.surya.grocerytask.worker
 import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -12,14 +11,9 @@ import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import androidx.room.Room
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.surya.grocerytask.R
-import com.surya.grocerytask.db.ShoppingListDB
-import com.surya.grocerytask.model.ShoppingList
-import com.surya.grocerytask.ui.MainActivity
-import com.surya.grocerytask.ui.todo.add_shopping.UpdateShoppingActivity
 
 class ReminderWorker(
     private val context: Context,
@@ -30,8 +24,13 @@ class ReminderWorker(
         val shoppingListId = inputData.getLong("shoppingListId", -1)
 
         if (shoppingListId != -1L) {
-            val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            createNotification(context, "Shopping List Reminder", "Don't forget to complete your shopping list!")
+            val notificationManager =
+                context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            createNotification(
+                context,
+                "Shopping List Reminder",
+                "Don't forget to complete your shopping list!"
+            )
             val intent = Intent("REMINDER_TRIGGERED")
             LocalBroadcastManager.getInstance(context).sendBroadcast(intent)
         }

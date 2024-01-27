@@ -5,7 +5,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.surya.grocerytask.repository.ShoppingRepository
 import javax.inject.Inject
 
-class ShoppingViewModelFactory @Inject constructor(private val repository: ShoppingRepository) : ViewModelProvider.Factory {
+class ShoppingViewModelFactory @Inject constructor(private val repository: ShoppingRepository) :
+    ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return ShoppingViewModel(repository) as T

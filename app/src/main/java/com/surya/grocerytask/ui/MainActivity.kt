@@ -2,8 +2,8 @@ package com.surya.grocerytask.ui
 
 import android.annotation.SuppressLint
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -16,8 +16,6 @@ import com.surya.grocerytask.databinding.ActivityMainBinding
 import com.surya.grocerytask.utils.SharedPref
 import com.surya.grocerytask.viewmodel.ProductViewModel
 import com.surya.grocerytask.viewmodel.ProductViewModelFactory
-import java.time.ZoneOffset
-import java.util.Calendar
 import javax.inject.Inject
 
 
@@ -59,8 +57,9 @@ class MainActivity : AppCompatActivity() {
 
         (application as BaseApplication).applicationComponent.inject(this)
 
-        if(!sharedPref.isFirstTime) {
-            productViewModel = ViewModelProvider(this, productViewModelFactory)[ProductViewModel::class.java]
+        if (!sharedPref.isFirstTime) {
+            productViewModel =
+                ViewModelProvider(this, productViewModelFactory)[ProductViewModel::class.java]
         }
 
     }

@@ -3,18 +3,17 @@ package com.surya.grocerytask.ui.todo.add_shopping
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.PorterDuff
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.common.util.CollectionUtils
 import com.surya.grocerytask.R
-import com.surya.grocerytask.adapter.ProductItemAdapter
 import com.surya.grocerytask.adapter.ShoppingStatusUpdateAdapter
 import com.surya.grocerytask.base.BaseApplication
 import com.surya.grocerytask.databinding.ActivityUpdateShoppingBinding
@@ -27,9 +26,10 @@ import com.surya.grocerytask.viewmodel.ShoppingViewModelFactory
 import javax.inject.Inject
 
 class UpdateShoppingActivity : AppCompatActivity() {
-    private lateinit var binding : ActivityUpdateShoppingBinding
+    private lateinit var binding: ActivityUpdateShoppingBinding
 
     private lateinit var shoppingViewModel: ShoppingViewModel
+
     @Inject
     lateinit var shoppingViewModelFactory: ShoppingViewModelFactory
 
@@ -54,10 +54,11 @@ class UpdateShoppingActivity : AppCompatActivity() {
 
         setSupportActionBar(findViewById(R.id.toolbar))
         supportActionBar?.apply {
-            title = if(from == "complete") "Complete Shopping List" else "Update Shopping List"
+            title = if (from == "complete") "Complete Shopping List" else "Update Shopping List"
             setDisplayHomeAsUpEnabled(true)
             val color = ContextCompat.getColor(this@UpdateShoppingActivity, R.color.white)
-            val drawable = ContextCompat.getDrawable(this@UpdateShoppingActivity, R.drawable.ic_arrow_back)
+            val drawable =
+                ContextCompat.getDrawable(this@UpdateShoppingActivity, R.drawable.ic_arrow_back)
             if (drawable != null) {
                 drawable.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
                 setHomeAsUpIndicator(drawable)
@@ -81,7 +82,7 @@ class UpdateShoppingActivity : AppCompatActivity() {
 
     private fun setData() {
 
-        if(from == "complete") {
+        if (from == "complete") {
             binding.btnSubmit.visibility = View.GONE
             binding.llOne.visibility = View.GONE
         }
@@ -96,13 +97,18 @@ class UpdateShoppingActivity : AppCompatActivity() {
         binding.recyclerView.adapter = shoppingStatusUpdateAdapter
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
 
-        shoppingViewModel = ViewModelProvider(this, shoppingViewModelFactory)[ShoppingViewModel::class.java]
+        shoppingViewModel =
+            ViewModelProvider(this, shoppingViewModelFactory)[ShoppingViewModel::class.java]
 
         binding.btnSubmit.setOnClickListener {
             val isEmpty = CollectionUtils.isEmpty(ShoppingStatusUpdateAdapter.selectedList)
 
-            if(isEmpty) {
-                Toast.makeText(this@UpdateShoppingActivity, "You haven't finished this shopping task; please click the back button.", Toast.LENGTH_SHORT).show()
+            if (isEmpty) {
+                Toast.makeText(
+                    this@UpdateShoppingActivity,
+                    "You haven't finished this shopping task; please click the back button.",
+                    Toast.LENGTH_SHORT
+                ).show()
                 return@setOnClickListener
             } else {
                 val list = ShoppingStatusUpdateAdapter.selectedList!!
@@ -123,7 +129,11 @@ class UpdateShoppingActivity : AppCompatActivity() {
                 }
                 val shopp: List<ShoppingProducts> = selectedList
                 val existingShoppingListId = shoppingListWithProducts.shoppingList.id
-                val newShoppingList = ShoppingList(id = existingShoppingListId, name = shoppingListWithProducts.shoppingList.name, date = shoppingListWithProducts.shoppingList.date)
+                val newShoppingList = ShoppingList(
+                    id = existingShoppingListId,
+                    name = shoppingListWithProducts.shoppingList.name,
+                    date = shoppingListWithProducts.shoppingList.date
+                )
                 shoppingViewModel.updateShoppingListWithProducts(newShoppingList, shopp)
                 moveHome()
             }
@@ -143,7 +153,7 @@ class UpdateShoppingActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if(from == "complete")
+        if (from == "complete")
             finish()
         else
             showExitDialog()

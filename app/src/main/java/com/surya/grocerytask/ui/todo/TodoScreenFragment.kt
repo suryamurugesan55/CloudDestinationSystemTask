@@ -3,15 +3,15 @@ package com.surya.grocerytask.ui.todo
 import android.annotation.SuppressLint
 import android.content.DialogInterface
 import android.content.Intent
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.surya.grocerytask.adapter.TodoListAdapter
 import com.surya.grocerytask.base.BaseApplication
@@ -30,6 +30,7 @@ class TodoScreenFragment : Fragment(), TodoListAdapter.OnItemClick {
     private lateinit var binding: FragmentTodoScreenBinding
 
     private lateinit var shoppingViewModel: ShoppingViewModel
+
     @Inject
     lateinit var shoppingViewModelFactory: ShoppingViewModelFactory
 
@@ -43,7 +44,7 @@ class TodoScreenFragment : Fragment(), TodoListAdapter.OnItemClick {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentTodoScreenBinding.inflate(inflater, container, false)
 
         return binding.root
@@ -52,18 +53,20 @@ class TodoScreenFragment : Fragment(), TodoListAdapter.OnItemClick {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        binding.fab.setOnClickListener{
+        binding.fab.setOnClickListener {
             val intent = Intent(requireContext(), AddShoppingActivity::class.java)
             startActivity(intent)
         }
 
-        shoppingViewModel = ViewModelProvider(this, shoppingViewModelFactory)[ShoppingViewModel::class.java]
+        shoppingViewModel =
+            ViewModelProvider(this, shoppingViewModelFactory)[ShoppingViewModel::class.java]
 
         todoListAdapter = TodoListAdapter(this@TodoScreenFragment, "todo")
 
-        shoppingViewModel.getListsNotFullyComplete().observe(requireActivity(), Observer { shoppingListsWithProducts ->
-            todoListAdapter.setComponents(shoppingListsWithProducts)
-        })
+        shoppingViewModel.getListsNotFullyComplete()
+            .observe(requireActivity(), Observer { shoppingListsWithProducts ->
+                todoListAdapter.setComponents(shoppingListsWithProducts)
+            })
 
         binding.recyclerView.adapter = todoListAdapter
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -72,7 +75,7 @@ class TodoScreenFragment : Fragment(), TodoListAdapter.OnItemClick {
 
     @SuppressLint("NewApi")
     override fun onItemClicked(shoppingListWithProducts: ShoppingListWithProducts, action: String) {
-        if(action == "edit") {
+        if (action == "edit") {
             AlertDialog.Builder(requireContext())
                 .setMessage("Do you want to edit this shopping items?")
                 .setTitle("Alert!")
@@ -93,7 +96,11 @@ class TodoScreenFragment : Fragment(), TodoListAdapter.OnItemClick {
             intent.putExtra("from", "todo")
             startActivity(intent)
         } else if (action == "reminder_set") {
-            Toast.makeText(requireContext(), "Already reminder set on this shopping", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                requireContext(),
+                "Already reminder set on this shopping",
+                Toast.LENGTH_SHORT
+            ).show()
         } else if (action == "reminder") {
             AlertDialog.Builder(requireContext())
                 .setMessage("Do you want to add reminder to this shopping?")
@@ -112,7 +119,7 @@ class TodoScreenFragment : Fragment(), TodoListAdapter.OnItemClick {
 
     @SuppressLint("NewApi")
     private fun getIntervalAlert(shoppingListWithProducts: ShoppingListWithProducts) {
-        val items = arrayOf("After 1 mins","After 5 mins", "After 10 mins", "After 15 mins")
+        val items = arrayOf("After 1 mins", "After 5 mins", "After 10 mins", "After 15 mins")
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("Choose Time Interval")
         builder.setItems(items) { dialog: DialogInterface?, which: Int ->
@@ -128,6 +135,7 @@ class TodoScreenFragment : Fragment(), TodoListAdapter.OnItemClick {
                         reminderTime = time
                     )
                 }
+
                 "After 5 mins" -> {
                     val currentTime = Calendar.getInstance()
                     currentTime.add(Calendar.MINUTE, 5)
@@ -138,6 +146,7 @@ class TodoScreenFragment : Fragment(), TodoListAdapter.OnItemClick {
                         reminderTime = time
                     )
                 }
+
                 "After 10 mins" -> {
                     val currentTime = Calendar.getInstance()
                     currentTime.add(Calendar.MINUTE, 10)
@@ -148,6 +157,7 @@ class TodoScreenFragment : Fragment(), TodoListAdapter.OnItemClick {
                         reminderTime = time
                     )
                 }
+
                 "After 15 mins" -> {
                     val currentTime = Calendar.getInstance()
                     currentTime.add(Calendar.MINUTE, 15)
@@ -158,6 +168,7 @@ class TodoScreenFragment : Fragment(), TodoListAdapter.OnItemClick {
                         reminderTime = time
                     )
                 }
+
                 else -> {
                     val currentTime = Calendar.getInstance()
                     currentTime.add(Calendar.MINUTE, 1)

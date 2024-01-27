@@ -4,7 +4,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -18,7 +17,6 @@ import com.surya.grocerytask.R
 import com.surya.grocerytask.adapter.ProductItemAdapter
 import com.surya.grocerytask.base.BaseApplication
 import com.surya.grocerytask.databinding.ActivityAddShoppingBinding
-import com.surya.grocerytask.model.ProductList
 import com.surya.grocerytask.model.ShoppingList
 import com.surya.grocerytask.model.ShoppingProducts
 import com.surya.grocerytask.ui.MainActivity
@@ -26,7 +24,6 @@ import com.surya.grocerytask.viewmodel.ProductItemViewModel
 import com.surya.grocerytask.viewmodel.ProductItemViewModelFactory
 import com.surya.grocerytask.viewmodel.ShoppingViewModel
 import com.surya.grocerytask.viewmodel.ShoppingViewModelFactory
-import java.util.UUID
 import javax.inject.Inject
 
 
@@ -34,10 +31,12 @@ class AddShoppingActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddShoppingBinding
 
     private lateinit var shoppingViewModel: ShoppingViewModel
+
     @Inject
     lateinit var shoppingViewModelFactory: ShoppingViewModelFactory
 
     private lateinit var productItemViewModel: ProductItemViewModel
+
     @Inject
     lateinit var productItemViewModelFactory: ProductItemViewModelFactory
 
@@ -56,7 +55,8 @@ class AddShoppingActivity : AppCompatActivity() {
             title = "Add Shopping List"
             setDisplayHomeAsUpEnabled(true)
             val color = ContextCompat.getColor(this@AddShoppingActivity, R.color.white)
-            val drawable = ContextCompat.getDrawable(this@AddShoppingActivity, R.drawable.ic_arrow_back)
+            val drawable =
+                ContextCompat.getDrawable(this@AddShoppingActivity, R.drawable.ic_arrow_back)
             if (drawable != null) {
                 drawable.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
                 setHomeAsUpIndicator(drawable)
@@ -64,7 +64,8 @@ class AddShoppingActivity : AppCompatActivity() {
             binding.toolbar.setTitleTextColor(Color.WHITE)
         }
 
-        productItemViewModel = ViewModelProvider(this, productItemViewModelFactory)[ProductItemViewModel::class.java]
+        productItemViewModel =
+            ViewModelProvider(this, productItemViewModelFactory)[ProductItemViewModel::class.java]
 
         productItemAdapter = ProductItemAdapter(this@AddShoppingActivity)
 
@@ -75,17 +76,23 @@ class AddShoppingActivity : AppCompatActivity() {
         binding.recyclerView.adapter = productItemAdapter
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
 
-        shoppingViewModel = ViewModelProvider(this, shoppingViewModelFactory)[ShoppingViewModel::class.java]
+        shoppingViewModel =
+            ViewModelProvider(this, shoppingViewModelFactory)[ShoppingViewModel::class.java]
 
         binding.btnSubmit.setOnClickListener {
             val isEmpty = CollectionUtils.isEmpty(ProductItemAdapter.selectedList)
-            if(binding.etName.text.toString().isEmpty()) {
-                Toast.makeText(this@AddShoppingActivity, "Please enter TODO Name", Toast.LENGTH_SHORT).show()
+            if (binding.etName.text.toString().isEmpty()) {
+                Toast.makeText(
+                    this@AddShoppingActivity,
+                    "Please enter TODO Name",
+                    Toast.LENGTH_SHORT
+                ).show()
                 return@setOnClickListener
             }
 
-            if(isEmpty) {
-                Toast.makeText(this@AddShoppingActivity, "Min Select 1 product", Toast.LENGTH_SHORT).show()
+            if (isEmpty) {
+                Toast.makeText(this@AddShoppingActivity, "Min Select 1 product", Toast.LENGTH_SHORT)
+                    .show()
                 return@setOnClickListener
             } else {
                 val list = ProductItemAdapter.selectedList!!
@@ -94,21 +101,23 @@ class AddShoppingActivity : AppCompatActivity() {
                     if (item.isChecked) {
                         selectedList.add(
                             ShoppingProducts(
-                            id = item.id,
-                            isSuccessful = false,
-                            description = item.description,
-                            category = item.category,
-                            image = item.image,
-                            price = item.price,
-                            shoppingListId = 0,
-                            title = item.title
-                        )
+                                id = item.id,
+                                isSuccessful = false,
+                                description = item.description,
+                                category = item.category,
+                                image = item.image,
+                                price = item.price,
+                                shoppingListId = 0,
+                                title = item.title
+                            )
                         )
                     }
                 }
-                //Log.e("66666",""+ list.toString())
                 val shopp: List<ShoppingProducts> = selectedList
-                val newShoppingList = ShoppingList(name = binding.etName.text.toString().trim(), date = System.currentTimeMillis())
+                val newShoppingList = ShoppingList(
+                    name = binding.etName.text.toString().trim(),
+                    date = System.currentTimeMillis()
+                )
                 shoppingViewModel.insertShoppingListWithProducts(newShoppingList, shopp)
                 moveHome()
             }

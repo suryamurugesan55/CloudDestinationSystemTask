@@ -2,7 +2,6 @@ package com.surya.grocerytask.adapter
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -11,7 +10,8 @@ import com.surya.grocerytask.R
 import com.surya.grocerytask.databinding.LytProductItemsBinding
 import com.surya.grocerytask.model.ProductList
 
-class ProductItemAdapter(private val activity: Activity) : RecyclerView.Adapter<ProductItemAdapter.ViewHolder>() {
+class ProductItemAdapter(private val activity: Activity) :
+    RecyclerView.Adapter<ProductItemAdapter.ViewHolder>() {
 
     private var components: List<ProductList> = emptyList()
 
@@ -42,21 +42,14 @@ class ProductItemAdapter(private val activity: Activity) : RecyclerView.Adapter<
                     component.isChecked = isChecked
                     selectedList?.clear()
                     selectedList?.addAll(components)
-                    /*isChecked.let {
-                        if (it) {
-                            selectedList?.add(component)
-                        } else {
-                            selectedList?.remove(component)
-                        }
-                    }*/
-                    //Log.e("66666",""+ selectedList.toString())
                 }
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = LytProductItemsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            LytProductItemsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 

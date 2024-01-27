@@ -12,7 +12,8 @@ import com.surya.grocerytask.repository.ShoppingRepository
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class ShoppingViewModel @Inject constructor(private val repository: ShoppingRepository) : ViewModel() {
+class ShoppingViewModel @Inject constructor(private val repository: ShoppingRepository) :
+    ViewModel() {
 
     private val _shoppingListsWithProducts = MutableLiveData<List<ShoppingListWithProducts>>()
     val shoppingListsWithProducts: LiveData<List<ShoppingListWithProducts>> get() = _shoppingListsWithProducts
@@ -44,14 +45,20 @@ class ShoppingViewModel @Inject constructor(private val repository: ShoppingRepo
         }
     }
 
-    fun insertShoppingListWithProducts(shoppingList: ShoppingList, products: List<ShoppingProducts>) {
+    fun insertShoppingListWithProducts(
+        shoppingList: ShoppingList,
+        products: List<ShoppingProducts>
+    ) {
         viewModelScope.launch {
             repository.insertShoppingListWithProducts(shoppingList, products)
             _shoppingListsWithProducts.value = repository.getAllShoppingListsWithProducts()
         }
     }
 
-    fun updateShoppingListWithProducts(shoppingList: ShoppingList, products: List<ShoppingProducts>) {
+    fun updateShoppingListWithProducts(
+        shoppingList: ShoppingList,
+        products: List<ShoppingProducts>
+    ) {
         viewModelScope.launch {
             repository.updateShoppingListAndProducts(shoppingList, products)
             _shoppingListsWithProducts.value = repository.getAllShoppingListsWithProducts()
@@ -63,7 +70,7 @@ class ShoppingViewModel @Inject constructor(private val repository: ShoppingRepo
         reminderTime: Long,
     ) {
         viewModelScope.launch {
-            repository.scheduleReminderForShoppingList( shoppingListId, reminderTime)
+            repository.scheduleReminderForShoppingList(shoppingListId, reminderTime)
         }
     }
 }

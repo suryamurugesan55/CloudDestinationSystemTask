@@ -1,22 +1,18 @@
 package com.surya.grocerytask.ui.pending
 
 import android.content.Intent
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.surya.grocerytask.R
 import com.surya.grocerytask.adapter.TodoListAdapter
 import com.surya.grocerytask.base.BaseApplication
 import com.surya.grocerytask.databinding.FragmentPendingScreenBinding
-import com.surya.grocerytask.databinding.FragmentTodoScreenBinding
 import com.surya.grocerytask.model.ShoppingListWithProducts
-import com.surya.grocerytask.ui.todo.add_shopping.EditShoppingActivity
 import com.surya.grocerytask.ui.todo.add_shopping.UpdateShoppingActivity
 import com.surya.grocerytask.viewmodel.ShoppingViewModel
 import com.surya.grocerytask.viewmodel.ShoppingViewModelFactory
@@ -26,6 +22,7 @@ class PendingScreenFragment : Fragment(), TodoListAdapter.OnItemClick {
     private lateinit var binding: FragmentPendingScreenBinding
 
     private lateinit var shoppingViewModel: ShoppingViewModel
+
     @Inject
     lateinit var shoppingViewModelFactory: ShoppingViewModelFactory
 
@@ -39,7 +36,7 @@ class PendingScreenFragment : Fragment(), TodoListAdapter.OnItemClick {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentPendingScreenBinding.inflate(inflater, container, false)
 
         return binding.root
@@ -48,14 +45,16 @@ class PendingScreenFragment : Fragment(), TodoListAdapter.OnItemClick {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        shoppingViewModel = ViewModelProvider(this, shoppingViewModelFactory)[ShoppingViewModel::class.java]
+        shoppingViewModel =
+            ViewModelProvider(this, shoppingViewModelFactory)[ShoppingViewModel::class.java]
 
-        todoListAdapter = TodoListAdapter( this@PendingScreenFragment, "pending")
+        todoListAdapter = TodoListAdapter(this@PendingScreenFragment, "pending")
 
 
-        shoppingViewModel.getListsFullyCompleteAndHalfPending().observe(requireActivity(), Observer { shoppingListsWithProducts ->
-            todoListAdapter.setComponents(shoppingListsWithProducts)
-        })
+        shoppingViewModel.getListsFullyCompleteAndHalfPending()
+            .observe(requireActivity(), Observer { shoppingListsWithProducts ->
+                todoListAdapter.setComponents(shoppingListsWithProducts)
+            })
 
         binding.recyclerView.adapter = todoListAdapter
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())

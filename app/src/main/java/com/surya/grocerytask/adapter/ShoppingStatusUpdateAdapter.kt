@@ -11,7 +11,8 @@ import com.surya.grocerytask.R
 import com.surya.grocerytask.databinding.LytProductItemsBinding
 import com.surya.grocerytask.model.ShoppingProducts
 
-class ShoppingStatusUpdateAdapter(private val activity: Activity, private val from: String) : RecyclerView.Adapter<ShoppingStatusUpdateAdapter.ViewHolder>() {
+class ShoppingStatusUpdateAdapter(private val activity: Activity, private val from: String) :
+    RecyclerView.Adapter<ShoppingStatusUpdateAdapter.ViewHolder>() {
 
     private var components: List<ShoppingProducts> = emptyList()
 
@@ -38,7 +39,7 @@ class ShoppingStatusUpdateAdapter(private val activity: Activity, private val fr
                 binding.tvProductName.text = component.title
                 binding.cbProduct.isChecked = component.isSuccessful
 
-                if(from == "complete") {
+                if (from == "complete") {
                     binding.cbProduct.visibility = View.GONE
                 }
 
@@ -52,7 +53,8 @@ class ShoppingStatusUpdateAdapter(private val activity: Activity, private val fr
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = LytProductItemsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            LytProductItemsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
