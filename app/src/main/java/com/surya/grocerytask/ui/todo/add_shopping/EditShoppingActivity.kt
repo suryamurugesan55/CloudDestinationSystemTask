@@ -3,12 +3,12 @@ package com.surya.grocerytask.ui.todo.add_shopping
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.PorterDuff
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -18,8 +18,9 @@ import com.surya.grocerytask.R
 import com.surya.grocerytask.adapter.ProductItemAdapter
 import com.surya.grocerytask.base.BaseApplication
 import com.surya.grocerytask.databinding.ActivityAddShoppingBinding
-import com.surya.grocerytask.model.ProductList
+import com.surya.grocerytask.databinding.ActivityEditShoppingBinding
 import com.surya.grocerytask.model.ShoppingList
+import com.surya.grocerytask.model.ShoppingListWithProducts
 import com.surya.grocerytask.model.ShoppingProducts
 import com.surya.grocerytask.ui.MainActivity
 import com.surya.grocerytask.viewmodel.ProductItemViewModel
@@ -29,9 +30,8 @@ import com.surya.grocerytask.viewmodel.ShoppingViewModelFactory
 import java.util.UUID
 import javax.inject.Inject
 
-
-class AddShoppingActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityAddShoppingBinding
+class EditShoppingActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityEditShoppingBinding
 
     private lateinit var shoppingViewModel: ShoppingViewModel
     @Inject
@@ -43,20 +43,26 @@ class AddShoppingActivity : AppCompatActivity() {
 
     private lateinit var productItemAdapter: ProductItemAdapter
 
+    // get from intent
+    lateinit var shoppingListWithProducts: ShoppingListWithProducts
+
+    lateinit var shoppingProducts: List<ShoppingProducts>
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //setContentView(R.layout.activity_add_shopping)
-        binding = ActivityAddShoppingBinding.inflate(layoutInflater)
+        //setContentView(R.layout.activity_edit_shopping)
+        binding = ActivityEditShoppingBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         (application as BaseApplication).applicationComponent.inject(this)
 
         setSupportActionBar(findViewById(R.id.toolbar))
         supportActionBar?.apply {
-            title = "Add Shopping List"
+            title = "Edit Shopping List"
             setDisplayHomeAsUpEnabled(true)
-            val color = ContextCompat.getColor(this@AddShoppingActivity, R.color.white)
-            val drawable = ContextCompat.getDrawable(this@AddShoppingActivity, R.drawable.ic_arrow_back)
+            val color = ContextCompat.getColor(this@EditShoppingActivity, R.color.white)
+            val drawable = ContextCompat.getDrawable(this@EditShoppingActivity, R.drawable.ic_arrow_back)
             if (drawable != null) {
                 drawable.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
                 setHomeAsUpIndicator(drawable)
@@ -64,12 +70,21 @@ class AddShoppingActivity : AppCompatActivity() {
             binding.toolbar.setTitleTextColor(Color.WHITE)
         }
 
+        getDataFromIntent()
+
         productItemViewModel = ViewModelProvider(this, productItemViewModelFactory)[ProductItemViewModel::class.java]
 
-        productItemAdapter = ProductItemAdapter(this@AddShoppingActivity)
+        productItemAdapter = ProductItemAdapter(this@EditShoppingActivity)
 
         productItemViewModel.components.observe(this, Observer {
-            productItemAdapter.setComponents(it)
+            var list = it
+            Log.e("99999",""+shoppingProducts.toString())
+            shoppingProducts.forEach { shopProduct ->
+                list.find { it.id == shopProduct.id }?.isChecked = true
+            }
+
+            Log.e("99999",""+it.toString())
+            productItemAdapter.setComponents(list)
         })
 
         binding.recyclerView.adapter = productItemAdapter
@@ -80,12 +95,12 @@ class AddShoppingActivity : AppCompatActivity() {
         binding.btnSubmit.setOnClickListener {
             val isEmpty = CollectionUtils.isEmpty(ProductItemAdapter.selectedList)
             if(binding.etName.text.toString().isEmpty()) {
-                Toast.makeText(this@AddShoppingActivity, "Please enter TODO Name", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@EditShoppingActivity, "Please enter TODO Name", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
             if(isEmpty) {
-                Toast.makeText(this@AddShoppingActivity, "Min Select 1 product", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@EditShoppingActivity, "Min Select 1 product", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             } else {
                 val list = ProductItemAdapter.selectedList!!
@@ -94,26 +109,44 @@ class AddShoppingActivity : AppCompatActivity() {
                     if (item.isChecked) {
                         selectedList.add(
                             ShoppingProducts(
-                            id = item.id,
-                            isSuccessful = false,
-                            description = item.description,
-                            category = item.category,
-                            image = item.image,
-                            price = item.price,
-                            shoppingListId = 0,
-                            title = item.title
-                        )
+                                id = item.id,
+                                isSuccessful = false,
+                                description = item.description,
+                                category = item.category,
+                                image = item.image,
+                                price = item.price,
+                                shoppingListId = 0,
+                                title = item.title
+                            )
                         )
                     }
                 }
-                //Log.e("66666",""+ list.toString())
                 val shopp: List<ShoppingProducts> = selectedList
-                val newShoppingList = ShoppingList(name = binding.etName.text.toString().trim(), date = System.currentTimeMillis())
-                shoppingViewModel.insertShoppingListWithProducts(newShoppingList, shopp)
+                val existingShoppingListId = shoppingListWithProducts.shoppingList.id
+                val newShoppingList = ShoppingList(id = existingShoppingListId, name = binding.etName.text.toString().trim(), date = shoppingListWithProducts.shoppingList.date, shoppingListWithProducts.shoppingList.reminderTime)
+                shoppingViewModel.updateShoppingListWithProducts(newShoppingList, shopp)
                 moveHome()
+            }
+
+        }
+
+    }
+
+    private fun getDataFromIntent() {
+        val receivedIntent = intent
+        if (receivedIntent != null && receivedIntent.hasExtra("edit_data")) {
+            val edit_data = receivedIntent.getSerializableExtra("edit_data")
+            if (edit_data != null) {
+                shoppingListWithProducts = edit_data as ShoppingListWithProducts
             }
         }
 
+        setData()
+    }
+
+    private fun setData() {
+        binding.etName.setText(shoppingListWithProducts.shoppingList.name)
+        shoppingProducts = shoppingListWithProducts.products
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -131,7 +164,7 @@ class AddShoppingActivity : AppCompatActivity() {
     }
 
     private fun showExitDialog() {
-        AlertDialog.Builder(this@AddShoppingActivity)
+        AlertDialog.Builder(this@EditShoppingActivity)
             .setMessage("Do you want to exit?")
             .setTitle("Alert!")
             .setCancelable(false)

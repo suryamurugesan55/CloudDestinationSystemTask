@@ -4,4 +4,7 @@
     <string name="pending">Pending</string>
     <string name="complete">Complete</string>
     <string name="submit">Submit</string>
+    <string name="update">Shopping Complete</string>
+    <string name="items">Items</string>
+    <string name="shopping_complete">Complete\n</string>
 </resources>

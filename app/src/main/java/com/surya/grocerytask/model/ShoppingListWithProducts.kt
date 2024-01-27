@@ -2,6 +2,7 @@ package com.surya.grocerytask.model
 
 import androidx.room.Embedded
 import androidx.room.Relation
+import java.io.Serializable
 
 data class ShoppingListWithProducts(
     @Embedded
@@ -11,4 +12,4 @@ data class ShoppingListWithProducts(
         entityColumn = "shoppingListId"
     )
     val products: List<ShoppingProducts>
-)
+) : Serializable

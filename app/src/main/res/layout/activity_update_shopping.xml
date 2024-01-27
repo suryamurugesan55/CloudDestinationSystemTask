@@ -5,7 +5,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.todo.add_shopping.AddShoppingActivity">
+    tools:context=".ui.todo.add_shopping.UpdateShoppingActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -28,6 +28,10 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etName"
+            android:enabled="false"
+            android:editable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:imeOptions="actionDone"
@@ -37,11 +41,36 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/llOne"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintTop_toBottomOf="@id/nameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1"
+            android:text="@string/items"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="2"
+            android:gravity="end"
+            android:text="@string/shopping_complete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
     <androidx.recyclerview.widget.RecyclerView
         android:scrollbars="vertical"
         android:layout_margin="20dp"
         android:id="@+id/recyclerView"
-        app:layout_constraintTop_toBottomOf="@+id/nameLayout"
+        app:layout_constraintTop_toBottomOf="@+id/llOne"
         app:layout_constraintBottom_toTopOf="@+id/btnSubmit"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
@@ -51,8 +80,7 @@
     <com.google.android.material.button.MaterialButton
         android:layout_margin="20dp"
         android:id="@+id/btnSubmit"
-        android:text="@string/submit"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerView"
+        android:text="@string/update"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

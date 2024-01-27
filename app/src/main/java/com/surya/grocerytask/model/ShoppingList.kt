@@ -3,6 +3,7 @@ package com.surya.grocerytask.model
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import java.io.Serializable
 
 @Entity
 data class ShoppingList (
@@ -10,15 +11,16 @@ data class ShoppingList (
     val id: Long = 0,
     val name: String,
     val date: Long,
+    var reminderTime: Long? = null
    // val products: List<ShoppingProducts>
-)
+) : Serializable
 
 @Entity(
     foreignKeys = [ForeignKey(
         entity = ShoppingList::class,
         parentColumns = ["id"],
         childColumns = ["shoppingListId"],
-        onDelete = ForeignKey.NO_ACTION
+        onDelete = ForeignKey.CASCADE
     )]
 )
 data class ShoppingProducts (
@@ -31,5 +33,5 @@ data class ShoppingProducts (
     val image: String,
     val price: Double,
     val title: String,
-    val isSuccessful: Boolean = false
-)
+    var isSuccessful: Boolean = false
+) : Serializable

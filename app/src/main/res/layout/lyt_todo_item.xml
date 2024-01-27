@@ -29,7 +29,7 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_marginTop="10dp"
                 android:id="@+id/tv_product_date"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:singleLine="true"
                 android:textStyle="italic"
                 android:layout_width="match_parent"
@@ -37,10 +37,29 @@
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/iv_view"
+            android:layout_marginEnd="5dp"
+            app:srcCompat="@drawable/ic_visibility"
+            android:tint="@color/colorPrimary"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/iv_reminder"
+            android:layout_marginEnd="5dp"
+            app:srcCompat="@drawable/ic_notifications"
+            android:tint="@color/colorPrimary"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/iv_edit"
             android:layout_marginEnd="5dp"
             app:srcCompat="@drawable/ic_edit"
-            android:tint="@color/colorAccent"
+            android:tint="@color/colorPrimary"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>

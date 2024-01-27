@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:name=".base.BaseApplication"
@@ -19,6 +20,12 @@
         android:usesCleartextTraffic="false"
         tools:targetApi="31">
         <activity
+            android:name=".ui.todo.add_shopping.UpdateShoppingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.todo.add_shopping.EditShoppingActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.todo.add_shopping.AddShoppingActivity"
             android:exported="false" />
         <activity
@@ -33,6 +40,14 @@
         <activity
             android:name=".ui.MainActivity"
             android:exported="false" />
+
+        <provider
+            android:name="androidx.work.impl.WorkManagerInitializer"
+            android:authorities="${applicationId}.workmanager-init"
+            android:exported="false"
+            android:grantUriPermissions="true"
+            tools:node="remove" />
+
     </application>
 
 </manifest>

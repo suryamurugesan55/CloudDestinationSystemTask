@@ -2,31 +2,31 @@ package com.surya.grocerytask.adapter
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.surya.grocerytask.R
 import com.surya.grocerytask.databinding.LytProductItemsBinding
-import com.surya.grocerytask.model.ProductList
+import com.surya.grocerytask.model.ShoppingProducts
 
-class ProductItemAdapter(private val activity: Activity) : RecyclerView.Adapter<ProductItemAdapter.ViewHolder>() {
+class ShoppingStatusUpdateAdapter(private val activity: Activity, private val from: String) : RecyclerView.Adapter<ShoppingStatusUpdateAdapter.ViewHolder>() {
 
-    private var components: List<ProductList> = emptyList()
+    private var components: List<ShoppingProducts> = emptyList()
 
     init {
         selectedList?.addAll(components)
     }
 
     companion object {
-        var selectedList: ArrayList<ProductList>? = arrayListOf()
+        var selectedList: ArrayList<ShoppingProducts>? = arrayListOf()
     }
 
     inner class ViewHolder(private val binding: LytProductItemsBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(component: ProductList) {
+        fun bind(component: ShoppingProducts) {
             binding.apply {
 
                 Glide.with(activity)
@@ -36,20 +36,16 @@ class ProductItemAdapter(private val activity: Activity) : RecyclerView.Adapter<
                     .into(binding.ivProduct)
 
                 binding.tvProductName.text = component.title
-                binding.cbProduct.isChecked = component.isChecked
+                binding.cbProduct.isChecked = component.isSuccessful
+
+                if(from == "complete") {
+                    binding.cbProduct.visibility = View.GONE
+                }
 
                 binding.cbProduct.setOnCheckedChangeListener { _, isChecked ->
-                    component.isChecked = isChecked
+                    component.isSuccessful = isChecked
                     selectedList?.clear()
                     selectedList?.addAll(components)
-                    /*isChecked.let {
-                        if (it) {
-                            selectedList?.add(component)
-                        } else {
-                            selectedList?.remove(component)
-                        }
-                    }*/
-                    //Log.e("66666",""+ selectedList.toString())
                 }
             }
         }
@@ -77,7 +73,7 @@ class ProductItemAdapter(private val activity: Activity) : RecyclerView.Adapter<
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setComponents(components: List<ProductList>) {
+    fun setComponents(components: List<ShoppingProducts>) {
         this.components = components
         selectedList?.clear()
         selectedList?.addAll(components)

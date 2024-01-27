@@ -1,5 +1,6 @@
 package com.surya.grocerytask.ui
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -15,6 +16,8 @@ import com.surya.grocerytask.databinding.ActivityMainBinding
 import com.surya.grocerytask.utils.SharedPref
 import com.surya.grocerytask.viewmodel.ProductViewModel
 import com.surya.grocerytask.viewmodel.ProductViewModelFactory
+import java.time.ZoneOffset
+import java.util.Calendar
 import javax.inject.Inject
 
 
@@ -29,6 +32,7 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var productViewModelFactory: ProductViewModelFactory
 
+    @SuppressLint("NewApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //setContentView(R.layout.activity_main)
